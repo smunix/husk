@@ -1,0 +1,113 @@
+-- This file has been generated from package.yaml by hpack version 0.15.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           husk
+version:        0.0.1
+synopsis:       A new Haskeleton package.
+description:    husk is a new Haskeleton package.
+category:       Other
+homepage:       https://github.com/smunix/husk#readme
+bug-reports:    https://github.com/smunix/husk/issues
+maintainer:     Providence Salumu
+license:        MIT
+build-type:     Simple
+cabal-version:  >= 1.10
+
+extra-source-files:
+    CHANGELOG.md
+    LICENSE.md
+    package.yaml
+    README.md
+    stack.yaml
+
+source-repository head
+  type: git
+  location: https://github.com/smunix/husk
+
+flag documentation
+  description: Generate documentation
+  manual: True
+  default: False
+
+flag fast
+  description: Build optimized executable (husk)
+  manual: True
+  default: True
+
+library
+  hs-source-dirs:
+      library
+  ghc-options: -Wall
+  if flag(documentation)
+    build-depends:
+        base
+      , hscolour
+  else
+    build-depends:
+        base
+  exposed-modules:
+      Husk
+  other-modules:
+      Example
+      Paths_husk
+  default-language: Haskell2010
+
+executable husk
+  main-is: Main.hs
+  hs-source-dirs:
+      executable
+  ghc-options: -Wall
+  build-depends:
+      base
+    , husk
+  if flag(fast)
+    ghc-options: -O2 -rtsopts -threaded -with-rtsopts=-N
+  else
+    ghc-options: -O0 -Wall
+  default-language: Haskell2010
+
+test-suite hpc-test-suite
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs:
+      test-suite
+    , library
+  ghc-options: -Wall -fhpc -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , husk
+    , tasty
+    , tasty-hspec
+    , tasty-quickcheck
+    , tasty-smallcheck
+  other-modules:
+      Husk
+  default-language: Haskell2010
+
+test-suite husk-test-suite
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs:
+      test-suite
+  ghc-options: -Wall -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , husk
+    , tasty
+    , tasty-hspec
+    , tasty-quickcheck
+    , tasty-smallcheck
+  default-language: Haskell2010
+
+benchmark husk-benchmarks
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs:
+      benchmark
+  ghc-options: -Wall -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , husk
+    , criterion
+  default-language: Haskell2010
